@@ -1,0 +1,6 @@
+Flask
+requests
+google-generativeai
+nuclei
+gunicorn  # For deployment
+flask-limiter  # For rate-limiting

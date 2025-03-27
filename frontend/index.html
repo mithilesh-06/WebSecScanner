@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Web Security Scanner</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+    <header>
+        Web Security Scanner
+    </header>
+
+    <div class="container">
+        <!-- Website Vulnerability Scanner -->
+        <div class="scanner-section">
+            <h2>Website Vulnerability Scanner</h2>
+            <input type="text" id="scanner-url" placeholder="Enter target URL">
+            <button onclick="startScan()">Scan Website</button>
+            <div id="scan-results"></div>
+        </div>
+
+        <!-- SSRF Testing Suite -->
+        <div class="scanner-section">
+            <h2>SSRF Testing Suite</h2>
+            <input type="text" id="ssrf-url" placeholder="Enter target URL for SSRF">
+            <button onclick="testSSRF()">Test SSRF</button>
+            <div id="ssrf-results"></div>
+        </div>
+
+        <!-- AI-Powered Bug Bounty Assistant -->
+        <div id="ai-container" class="scanner-section">
+            <h2>AI-Powered Bug Bounty Assistant</h2>
+            <textarea id="user-query" placeholder="Ask me anything about Bug Bounty..."></textarea>
+            <button onclick="askAI()">Ask AI</button>
+            <div id="ai-response"></div>
+        </div>
+    </div>
+
+    <footer>
+        &copy; 2025 Web Security Scanner | Created for Ethical Hacking
+    </footer>
+
+    <script>
+        // Function to start the Website Vulnerability Scanner
+        function startScan() {
+            let targetUrl = document.getElementById("scanner-url").value;
+            document.getElementById("scan-results").innerHTML = "Scanning...";
+
+            fetch("/api/scan", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ url: targetUrl })
+            })
+            .then(response => response.json())
+            .then(data => {
+                document.getElementById("scan-results").innerHTML = "<strong>Scan Results:</strong><br>" + data.results;
+            })
+            .catch(error => {
+                document.getElementById("scan-results").innerHTML = "Error: " + error;
+            });
+        }
+
+        // Function to start SSRF Testing
+        function testSSRF() {
+            let ssrfUrl = document.getElementById("ssrf-url").value;
+            document.getElementById("ssrf-results").innerHTML = "Testing SSRF...";
+
+            fetch("/api/test-ssrf", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ url: ssrfUrl })
+            })
+            .then(response => response.json())
+            .then(data => {
+                document.getElementById("ssrf-results").innerHTML = "<strong>SSRF Test Results:</strong><br>" + data.results;
+            })
+            .catch(error => {
+                document.getElementById("ssrf-results").innerHTML = "Error: " + error;
+            });
+        }
+
+        // Function to send a query to Bug Bounty AI
+        function askAI() {
+            let userQuery = document.getElementById("user-query").value;
+            document.getElementById("ai-response").innerHTML = "Generating response...";
+
+            fetch("/api/ask-ai", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ query: userQuery })
+            })
+            .then(response => response.json())
+            .then(data => {
+                document.getElementById("ai-response").innerHTML = "<strong>Response:</strong> " + data.response;
+            })
+            .catch(error => {
+                document.getElementById("ai-response").innerHTML = "Error: " + error;
+            });
+        }
+    </script>
+
+</body>
+</html>
