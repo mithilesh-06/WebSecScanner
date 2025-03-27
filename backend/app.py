@@ -3,7 +3,7 @@ from scanner import scanner_bp
 from ssrf import ssrf_bp
 from assistant import assistant_bp
 
-app = Flask(__name__)
+app = Flask(__name__, static_folder="../frontend/static", template_folder="../frontend")
 
 # Register Blueprints (modular API structure)
 app.register_blueprint(scanner_bp, url_prefix="/scanner")
