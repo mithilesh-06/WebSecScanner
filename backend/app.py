@@ -1,18 +1,23 @@
-from flask import Flask, render_template
+from flask import Flask, request, jsonify
 
-app = Flask(__name__, static_folder="../frontend/static", template_folder="../frontend")
+app = Flask(__name__)
 
-@app.route("/")
-def home():
-    return render_template("index.html")
+@app.route('/assistant/ask', methods=['POST'])
+def assistant():
+    try:
+        # Ensure request data is JSON
+        if not request.is_json:
+            return jsonify({"error": "Invalid JSON"}), 400
 
-@app.route("/scanner")
-def scanner():
-    return render_template("scanner.html")
+        data = request.get_json()
+        question = data.get('question', '')
 
-@app.route("/ssrf")
-def ssrf():
-    return render_template("ssrf.html")
+        # Simulating AI response
+        response = {"answer": f"AI Response for: {question}"}
 
-if __name__ == "__main__":
-    app.run(debug=True)
+        return jsonify(response), 200  # Ensure JSON response
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500  # Return proper JSON error
+
+if __name__ == '__main__':
+    app.run(host="0.0.0.0", port=5000, debug=True)  # Make sure it runs properly

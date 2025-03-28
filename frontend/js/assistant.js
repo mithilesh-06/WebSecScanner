@@ -12,12 +12,12 @@ document.getElementById("ask-ai-btn").addEventListener("click", async () => {
         });
 
         if (!response.ok) {
-            throw new Error("Failed to fetch response");
+            throw new Error(`HTTP error! Status: ${response.status}`);
         }
 
-        const data = await response.json();
+        const data = await response.json();  // ✅ Ensure parsing JSON
         responseBox.innerText = data.answer;
     } catch (error) {
-        responseBox.innerText = "Error: " + error.message;
+        responseBox.innerText = `Error: ${error.message}`;
     }
 });
